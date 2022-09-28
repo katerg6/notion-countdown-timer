@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>SimpleCountdown</title>
+  <style>
+    div {
+      margin: auto;
+      width: 200px;
+      text-align: center;
+    }
+
+    #onebutton {
+      text-align: center;
+      font-family: Sans-Serif;
+      font-weight: bold;
+      color: black;
+      padding: 1%;
+      border-radius: 20px;
+    }
+
+    #thetime {
+      font-size: 2em;
+    }
+
+    #onebutton {
+      font-size: 1em;
+      opacity: 1;
+      transition: 0.2s;
+    }
+
+    #onebutton:hover {
+      cursor: pointer;
+      transition: 0.2s;
+      opacity: 0.5;
+      border-radius: 20px;
+    }
+
+    ::selection {
+      background: white;
+    }
+  </style>
+</head>
+
+<div id="onebutton"><span id="thetime"></span></div>
+
+<script>
+  var isrunning = false;
+  var isfinished = false;
+  var duration = 2;
+  window.onload = () => {
+    let totalSeconds = duration * 60;
+    let minute = Math.floor(totalSeconds / 60);
+    let seconds = totalSeconds - minute * 60;
+    let intervalId = null;
+    document.getElementById("thetime").innerHTML =
+      pad(minute) + ":" + pad(seconds);
+
+    function startTimer() {
+      -totalSeconds;
+      isfinished = false;
+      minute = Math.floor(totalSeconds / 60);
+      seconds = totalSeconds - minute * 60;
+      document.getElementById("thetime").innerHTML =
+        pad(minute) + ":" + pad(seconds);
+      if (--totalSeconds < 0) {
+        totalSeconds = duration;
+        clearInterval(intervalId);
+        isfinished = true;
+        isrunning = false;
+        document.getElementById("thetime").innerHTML = "All done!";
+      }
+    }
+    document.getElementById("onebutton").addEventListener("click", () => {
+      if (isrunning) {
+        isrunning = false;
+        document.getElementById("onebutton").style.color = "black";
+        if (intervalId) {
+          clearInterval(intervalId);
+        }
+      } else {
+        if (isfinished) {
+          clearInterval(intervalId);
+          document.getElementById("onebutton").style.color = "black";
+          isrunning = false;
+          totalSeconds = duration * 60;
+          minute = Math.floor(totalSeconds / 60);
+          seconds = totalSeconds - minute * 60;
+          document.getElementById("thetime").innerHTML =
+            pad(minute) + ":" + pad(seconds);
+          isfinished = false;
+        } else {
+          intervalId = setInterval(startTimer, 1000);
+          document.getElementById("onebutton").style.color = "green";
+          isrunning = true;
+        }
+      }
+    });
+    document.getElementById("onebutton").addEventListener("dblclick", () => {
+      clearInterval(intervalId);
+      document.getElementById("onebutton").style.color = "black";
+      isrunning = false;
+      totalSeconds = duration * 60;
+      minute = Math.floor(totalSeconds / 60);
+      seconds = totalSeconds - minute * 60;
+      document.getElementById("thetime").innerHTML =
+        pad(minute) + ":" + pad(seconds);
+    });
+
+    function pad(value) {
+      if (value < 10) {
+        return "0" + value;
+      } else {
+        return value;
+      }
+    }
+  };
+</script>
