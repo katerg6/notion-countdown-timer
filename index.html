@@ -4,6 +4,9 @@
 <head>
   <title>SimpleCountdown</title>
   <style>
+    body {
+      overflow: hidden;
+    }
     div {
       margin: auto;
       width: 200px;
@@ -14,7 +17,7 @@
       text-align: center;
       font-family: Sans-Serif;
       font-weight: bold;
-      color: blue;
+      color: black;
       padding: 120px;
       border-radius: 20px;
     }
@@ -41,9 +44,10 @@
     }
   </style>
 </head>
-
-<div id="onebutton"><span id="thetime"></span></div>
-
+<body>
+  <div id="onebutton"><span id="thetime"></span></div>
+</body>
+  
 <script>
   var isrunning = false;
   var isfinished = false;
